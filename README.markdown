@@ -12,7 +12,7 @@ in a single place. Hence, this.
 
 ## Usage
 
-    bend [--user USER] [--host HOST] [--dir DIR] [HOST] [USER]
+    bend [-v] [--user USER] [--host HOST] [--dir DIR] [HOST] [USER]
 
 eg:
 
@@ -36,6 +36,9 @@ eg:
     # change the directory where config files are kept
     # (default is ~/etc/battleschool)
     bend --dir ~/.battleschool
+
+    # list what files are used to create the final config
+    bend -v
 
 
 ## Configuration

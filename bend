@@ -27,6 +27,12 @@ parser.add_option(
     dest = 'dir',
     help = 'look for configuration in DIR',
 )
+parser.add_option(
+    '-v', '--verbose',
+    dest = 'verbose',
+    action = 'store_true',
+    help = 'be verbose about what files are used',
+)
 (options, args) = parser.parse_args()
 
 if len(args) > 0:
@@ -66,6 +72,8 @@ def create_config():
 
     for filename in [common_yaml, host_yaml, user_yaml]:
         if os.path.isfile(filename):
+            if options.verbose:
+                print ' ** adding configuration', filename
             with open(filename) as file:
                 conf = yaml.load(file)
                 if conf is None:
@@ -111,6 +119,8 @@ def run_battleschool():
     # add any existing vars files
     for filename in [common_vars, host_vars, user_vars]:
         if os.path.isfile(filename):
+            if options.verbose:
+                print ' -- variables from', filename
             args.extend(['-e', '@%s' % filename])
 
     subprocess.call(args)
