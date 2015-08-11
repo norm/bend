@@ -8,7 +8,10 @@ I have more than one computer that I would like to set up using battleschool.
 They need different configurations but I still want to keep the configuration
 in a single place. Hence, this.
 
+You can see [my configuration] for an example of how to set things up.
+
 [battleschool]: https://github.com/spencergibb/battleschool
+[my configuration]: https://github.com/norm/bend-configuration
 
 ## Installation
 
