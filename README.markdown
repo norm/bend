@@ -24,6 +24,13 @@ This allows you to specify the local playbooks, URLs and git repositories to
 use on a global, per-host and per-user basis. Each file is optional (but at
 least one must exist for this to make any sense).
 
+If any of the following exist, they are assumed to contain extra variables
+used during the `battleschool` run:
+
+* `common.vars.yml`
+* `host/<host>.vars.yml`
+* `user/<user>.vars.yml`
+
 
 ## Why bend?
 

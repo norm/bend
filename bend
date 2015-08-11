@@ -1,15 +1,20 @@
 #!/usr/bin/env python
 
 import os
+import subprocess
 import yaml
 
 
 USERNAME='norm'
 HOSTNAME='sinister'
+BATTLEDIR='%s/etc/battleschool' % os.getenv('HOME')
 
 user_yaml = 'user/%s.yml' % USERNAME
+user_vars = 'user/%s.vars.yml' % USERNAME
 host_yaml = 'host/%s.yml' % HOSTNAME
+host_vars = 'host/%s.vars.yml' % HOSTNAME
 common_yaml = 'common.yml'
+common_vars = 'common.vars.yml'
 
 
 def create_config():
@@ -60,4 +65,20 @@ def create_config():
         file.write(yaml.dump(config, default_flow_style=False))
 
 
+def run_battleschool():
+    args = [
+        'battle',
+        '--config-dir', BATTLEDIR,
+        '-K',
+    ]
+
+    # add any existing vars files
+    for filename in [common_vars, host_vars, user_vars]:
+        if os.path.isfile(filename):
+            args.extend(['-e', '@%s' % filename])
+
+    subprocess.call(args)
+
+
 create_config()
+run_battleschool()
