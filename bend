@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from copy import deepcopy
 from optparse import OptionParser
 import os
 import subprocess
@@ -57,6 +58,7 @@ host_vars = '%s/host/%s.vars.yml' % (BATTLEDIR, HOSTNAME)
 common_yaml = '%s/common.yml' % BATTLEDIR
 common_vars = '%s/common.vars.yml' % BATTLEDIR
 destination = '%s/config.yml' % BATTLEDIR
+args_yaml = '%s/config.vars.yml' % BATTLEDIR
 
 
 def create_config():
@@ -110,6 +112,21 @@ def create_config():
 
 
 def run_battleschool():
+    def dict_merge(a, b):
+        ''' Recursively merge dict b into dict a.'''
+        if not isinstance(b, dict):
+            return b
+        result = deepcopy(a)
+        for k, v in b.iteritems():
+            if k in result:
+                if isinstance(result[k], dict):
+                    result[k] = dict_merge(result[k], v)
+                elif isinstance(result[k], list):
+                    result[k].extend(v)
+            else:
+                result[k] = deepcopy(v)
+        return result
+
     args = [
         'battle',
         '--config-dir', BATTLEDIR,
@@ -117,11 +134,19 @@ def run_battleschool():
     ]
 
     # add any existing vars files
+    var_dict = {}
     for filename in [common_vars, host_vars, user_vars]:
         if os.path.isfile(filename):
             if options.verbose:
                 print ' -- variables from', filename
-            args.extend(['-e', '@%s' % filename])
+            with open(filename) as file:
+                new_vars = yaml.load(file)
+            var_dict = dict_merge(var_dict, new_vars)
+
+    if var_dict:
+        with open(args_yaml, 'w') as file:
+            file.write(yaml.dump(var_dict, default_flow_style=False))
+        args.extend(['-e', '@%s' % args_yaml])
 
     subprocess.call(args)
 
