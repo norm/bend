@@ -1,13 +1,48 @@
 #!/usr/bin/env python
 
+from optparse import OptionParser
 import os
 import subprocess
 import yaml
 
 
-USERNAME='norm'
-HOSTNAME='sinister'
-BATTLEDIR='%s/etc/battleschool' % os.getenv('HOME')
+hostname = os.uname()[1]
+default_host = hostname.split('.')[0]
+default_user = os.getenv('USER')
+default_dir = '%s/etc/battleschool' % os.getenv('HOME')
+
+parser = OptionParser()
+parser.add_option(
+    '--user',
+    dest = 'user',
+    help = 'override the default username',
+)
+parser.add_option(
+    '--host',
+    dest = 'host',
+    help = 'override the default hostname',
+)
+parser.add_option(
+    '--dir',
+    dest = 'dir',
+    help = 'look for configuration in DIR',
+)
+(options, args) = parser.parse_args()
+
+if len(args) > 0:
+    default_host = args[0]
+elif options.host:
+    default_host = options.host
+if len(args) > 1:
+    default_user = args[1]
+elif options.user:
+    default_user = options.user
+if options.dir:
+    default_dir = options.dir
+
+USERNAME=os.getenv('BEND_USER', default_user)
+HOSTNAME=os.getenv('BEND_HOST', default_host)
+BATTLEDIR=default_dir
 
 user_yaml = '%s/user/%s.yml' % (BATTLEDIR, USERNAME)
 user_vars = '%s/user/%s.vars.yml' % (BATTLEDIR, USERNAME)

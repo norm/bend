@@ -10,6 +10,33 @@ in a single place. Hence, this.
 
 [battleschool]: https://github.com/spencergibb/battleschool
 
+## Usage
+
+    bend [--user USER] [--host HOST] [--dir DIR] [HOST] [USER]
+
+eg:
+
+    # accept all defaults
+    bend
+
+    # change the hostname (default is `hostname -s`)
+    bend dev_box
+    bend --host dev_box
+    BEND_HOST=dev_box bend
+
+    # change the username (default is $USER)
+    bend --user bob
+    BEND_USER=bob bend
+
+    # change both
+    bend --user bob --host dev_box
+    bend dev_box bob
+    BEND_USER=bob BEND_HOST=dev_box bend
+
+    # change the directory where config files are kept
+    # (default is ~/etc/battleschool)
+    bend --dir ~/.battleschool
+
 
 ## Configuration
 
