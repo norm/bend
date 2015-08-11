@@ -16,6 +16,7 @@ in a single place. Hence, this.
 A normal `battleschool` configuration directory contains a file `config.yml`.
 Bend will create this file for you by combining (in this order):
 
+* `common.yml`
 * `host/<host>.yml`
 * `user/<user>.yml`
 

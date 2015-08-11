@@ -9,6 +9,7 @@ HOSTNAME='sinister'
 
 user_yaml = 'user/%s.yml' % USERNAME
 host_yaml = 'host/%s.yml' % HOSTNAME
+common_yaml = 'common.yml'
 
 
 repos = {}
@@ -21,7 +22,7 @@ config = {
     },
 }
 
-for filename in [host_yaml, user_yaml]:
+for filename in [common_yaml, host_yaml, user_yaml]:
     if os.path.isfile(filename):
         with open(filename) as file:
             conf = yaml.load(file)
