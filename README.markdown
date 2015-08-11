@@ -10,6 +10,11 @@ in a single place. Hence, this.
 
 [battleschool]: https://github.com/spencergibb/battleschool
 
+## Installation
+
+    # check out the repo, then: (may need sudo)
+    cp bend /usr/local/bin
+
 ## Usage
 
     bend [-v] [--user USER] [--host HOST] [--dir DIR] [HOST] [USER]
