@@ -9,12 +9,13 @@ USERNAME='norm'
 HOSTNAME='sinister'
 BATTLEDIR='%s/etc/battleschool' % os.getenv('HOME')
 
-user_yaml = 'user/%s.yml' % USERNAME
-user_vars = 'user/%s.vars.yml' % USERNAME
-host_yaml = 'host/%s.yml' % HOSTNAME
-host_vars = 'host/%s.vars.yml' % HOSTNAME
-common_yaml = 'common.yml'
-common_vars = 'common.vars.yml'
+user_yaml = '%s/user/%s.yml' % (BATTLEDIR, USERNAME)
+user_vars = '%s/user/%s.vars.yml' % (BATTLEDIR, USERNAME)
+host_yaml = '%s/host/%s.yml' % (BATTLEDIR, HOSTNAME)
+host_vars = '%s/host/%s.vars.yml' % (BATTLEDIR, HOSTNAME)
+common_yaml = '%s/common.yml' % BATTLEDIR
+common_vars = '%s/common.vars.yml' % BATTLEDIR
+destination = '%s/config.yml' % BATTLEDIR
 
 
 def create_config():
@@ -61,7 +62,7 @@ def create_config():
         if len(config['sources'][key]) == 0:
             del config['sources'][key]
 
-    with open('config.yml', 'w') as file:
+    with open(destination, 'w') as file:
         file.write(yaml.dump(config, default_flow_style=False))
 
 
